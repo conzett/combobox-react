@@ -33,17 +33,6 @@ class Combobox extends Component {
     if (this.props.disabled) return;
     if (!this.state.expanded) this._expand(true);
   }
-
-  _handleListGroupItemClick (value) {
-    let option = this._findOption(value);
-    this.setState({active: option, selected: option});
-    this._expand(false);
-  }
-
-  _handleListGroupItemMouseEnter (value) {
-    let option = this._findOption(value);
-    this.setState({active: option});
-  }
   
   _handlePanelKeyUp (value) {
     this.setState({search: value});
@@ -82,6 +71,27 @@ class Combobox extends Component {
     if (!node.contains(event.target)) this._expand(false);
   }
 
+  // NOTE: We need to track our own mouse changes so we can tell the difference
+  // between a real mouseMouse and an item being scrolled into view under the
+  // cursor from a keyboard event or some other prop change
+  _mousePositionY: null
+
+  _handleMouseMove (event) {
+    this.mousePositionY = event.pageY;
+  }
+
+  _handleListGroupItemMouseEnter (value, event) {
+    if (event.pageY === this.mousePositionY) return;
+    let option = this._findOption(value);
+    this.setState({active: option});
+  }
+
+  _handleListGroupItemClick (value) {
+    let option = this._findOption(value);
+    this.setState({active: option, selected: option});
+    this._expand(false);
+  }
+
   _filteredOptions () {
     if (!this.state.search) return this.props.options;
     let search = this.state.search.toLowerCase();
@@ -102,6 +112,7 @@ class Combobox extends Component {
         onListGroupItemClick={this._handleListGroupItemClick.bind(this)}
         onFormControlClick={this._handleFormControlClick.bind(this)}
         onPanelKeyUp={this._handlePanelKeyUp.bind(this)}
+        onMouseMove={this._handleMouseMove.bind(this)}
         selected={this.state.selected}
         expanded={this.state.expanded}
         options={this._filteredOptions()}

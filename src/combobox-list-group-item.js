@@ -1,30 +1,23 @@
 import React, { Component } from 'react';
 
 class ListGroupItem extends Component {
-  componentDidUpdate() { this._scrollIntoViewIfActive() }
+  componentDidUpdate(prevProps) { this._scrollIntoViewIfActive() }
   componentDidMount() { this._scrollIntoViewIfActive() }
 
-  _scrollIntoViewIfActive () {
+  _scrollIntoViewIfActive (x) {
     if (!this.props.active) return;
-    if (this.refs.root.scrollIntoViewIfNeeded) {
-      this.refs.root.scrollIntoViewIfNeeded()
-    }
-  }
-
-  _handleMouseEnter() {
-    if (this.props.active) return;
-    this.props.onListGroupItemMouseEnter(this.props.value)
+    this.refs.root.scrollIntoView(false);
   }
   
   render () {
-    let {active, selected, text, value, style, className, onListGroupItemClick} = this.props;
+    let {active, selected, text, value, style, className, onListGroupItemClick, onListGroupItemMouseEnter} = this.props;
     let classes = `list-group-item ${active ? "active" : ""} ${className || ""}`
 
     return (
       <li
         ref="root"
         style={Object.assign({paddingLeft: 30}, style)}
-        onMouseEnter={this._handleMouseEnter.bind(this)}
+        onMouseEnter={(event) => onListGroupItemMouseEnter(value, event)}
         onClick={()=> onListGroupItemClick(value)}
         className={classes}>
         <div style={{position: "absolute", left: 15}}>

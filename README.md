@@ -15,8 +15,9 @@ to get started quickly.
 
 #### Known Issues (TODOs)
 
-- [ ] `onMouseEnter` fired when mouse doesn't move
-- [ ] `scrollIntoViewIfNeeded` support or polyfill
+- [ ] Up/down scroll arrows when list is too long
+- [ ] General cleanup and refactor
+- [ ] Select and active callbacks
 
 #### License
 

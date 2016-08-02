@@ -14,6 +14,7 @@ class FormControl extends Component {
     return (
       <div
         style={Object.assign({position: "relative", WebkitUserSelect: "none", cursor: "default"}, style)}
+        onMouseMove={this.props.onMouseMove}
         onClick={onFormControlClick}
         className={classes}
         tabIndex="1">
