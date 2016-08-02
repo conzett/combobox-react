@@ -11,8 +11,8 @@ class ListGroup extends Component {
         {...option}
         onListGroupItemMouseEnter={this.props.onListGroupItemMouseEnter}
         onListGroupItemClick={this.props.onListGroupItemClick}
-        key={option.value}
         selected={selected}
+        key={option.value}
         active={active}/>
     )
   }

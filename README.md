@@ -16,8 +16,8 @@ to get started quickly.
 #### Known Issues (TODOs)
 
 - [ ] Up/down scroll arrows when list is too long
-- [ ] General cleanup and refactor
 - [ ] Select and active callbacks
+- [ ] Jittery scroll behavior onMouseEnter
 
 #### License
 

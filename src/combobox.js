@@ -3,30 +3,30 @@ import { findDOMNode } from 'react-dom';
 import FormControl from './combobox-form-control.js';
 
 class Combobox extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     let selected = this._findOption(props.selectedValue)
     this.state = {
       expanded: props.expanded,
       selected: selected,
       active: selected,
-      search: undefined
+      search: null
     }
   }
 
   componentDidMount () {
-    window.addEventListener("keydown", this._handleWindowKeyDown.bind(this))
+    window.addEventListener("keydown", this._handleWindowKeyDown.bind(this));
     window.addEventListener("click", this._handleWindowClick.bind(this));
   }
 
   componentWillUnmount () {
-    window.removeEventListener("keydown", this._handleWindowKeyDown.bind(this))
-    window.removeEventListener('click', this._handleWindowClick);
+    window.removeEventListener("keydown", this._handleWindowKeyDown.bind(this));
+    window.removeEventListener("click", this._handleWindowClick.bind(this));
   }
 
   _findOption (value) {
-    let opt = this.props.options
-    return opt.find(o=> o.value === value) || opt[0]
+    let opt = this.props.options;
+    return opt.find(o=> o.value === value) || opt[0];
   }
 
   _handleFormControlClick () {
@@ -48,7 +48,7 @@ class Combobox extends Component {
         default: break;
       }
     } else {
-      if (document.activeElement !== findDOMNode(this.refs.formControl)) return;
+      if (document.activeElement !== findDOMNode(this.refs.root)) return;
       if (event.code === 'ArrowDown') this._expand(true);
     }
   }
@@ -58,7 +58,7 @@ class Combobox extends Component {
     this._expand(false);
   }
 
-  _setActiveOffset(offset) {
+  _setActiveOffset (offset) {
     let filtered = this._filteredOptions();
     let index = filtered.findIndex(o => o === this.state.active) + offset;
     if (index < 0 || index >= filtered.length) return;
@@ -67,7 +67,7 @@ class Combobox extends Component {
 
   _handleWindowClick (event) {
     if (!this.state.expanded) return;
-    let node = findDOMNode(this.refs.formControl);
+    let node = findDOMNode(this.refs.root);
     if (!node.contains(event.target)) this._expand(false);
   }
 
@@ -95,29 +95,27 @@ class Combobox extends Component {
   _filteredOptions () {
     if (!this.state.search) return this.props.options;
     let search = this.state.search.toLowerCase();
-    let filter = (o) => o.text && o.text.toLowerCase().includes(search)
+    let filter = (o) => o.text && o.text.toLowerCase().includes(search);
     return this.props.options.filter(filter);
   }
 
-  _expand(bool) {
-    this.setState({expanded: bool, search: undefined, active: this.state.selected});
-    if (!bool) findDOMNode(this.refs.formControl).focus();
+  _expand (bool) {
+    this.setState({expanded: bool, search: null, active: this.state.selected});
+    if (!bool) findDOMNode(this.refs.root).focus();
   }
 
   render () {
     return (
       <FormControl
+        {...this.state}
         {...this.props}
         onListGroupItemMouseEnter={this._handleListGroupItemMouseEnter.bind(this)}
         onListGroupItemClick={this._handleListGroupItemClick.bind(this)}
         onFormControlClick={this._handleFormControlClick.bind(this)}
         onPanelKeyUp={this._handlePanelKeyUp.bind(this)}
         onMouseMove={this._handleMouseMove.bind(this)}
-        selected={this.state.selected}
-        expanded={this.state.expanded}
         options={this._filteredOptions()}
-        active={this.state.active}
-        ref="formControl"/>
+        ref="root"/>
     )
   }
 };

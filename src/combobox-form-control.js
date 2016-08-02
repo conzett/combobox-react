@@ -3,24 +3,33 @@ import Panel from './combobox-panel.js';
 
 class FormControl extends Component {
   render () {
-    let { onFormControlClick, placeholder, expanded, selected, style} = this.props
-    let classes = `form-control ${this.props.className || ""}`
-    let text =
-      <div style={
-        { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>
-        {/\S/.test(selected.text || "") ? selected.text : placeholder}
-      </div>
+    let {placeholder, expanded, selected, name, style} = this.props;
+    let text = /\S/.test(selected.text || "") ? selected.text : placeholder;
+
+    let formControlStyle = {
+      WebkitUserSelect: "none",
+      MozUserSelect: "none",
+      msUserSelect: "none",
+      position: "relative",
+      cursor: "default"
+    }
+
+    let textStyle = {
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      overflow: "hidden"
+    }
 
     return (
       <div
-        style={Object.assign({position: "relative", WebkitUserSelect: "none", cursor: "default"}, style)}
+        style={Object.assign(formControlStyle, style)}
         onMouseMove={this.props.onMouseMove}
-        onClick={onFormControlClick}
-        className={classes}
+        onClick={this.props.onFormControlClick}
+        className="form-control"
         tabIndex="1">
-        {text}
-        { expanded ? <Panel {...this.props} ref="panel" /> : null }
-        <input name={this.props.name} type="hidden" value={selected.value}/>
+        <div style={textStyle}>{text}</div>
+        { expanded ? <Panel {...this.props} /> : null }
+        <input type="hidden" name={name} value={selected.value}/>
       </div>
     )
   }

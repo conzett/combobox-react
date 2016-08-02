@@ -6,14 +6,14 @@ class Panel extends Component {
     this.refs.search.focus();
   }
 
-  handleKeyUp () {
+  _handleKeyUp () {
     this.props.onPanelKeyUp(this.refs.search.value);
   }
 
   render () {
     let empty = this.props.options.length === 0;
-    let emptyContent =
-      <div className="panel-footer text-muted"><em>No Results</em></div>
+    let emptyClasses = "panel-footer text-muted";
+    let emptyContent = <div className={emptyClasses}><em>No Results</em></div>;
     let style = {
       whiteSpace: "nowrap",
       boxSizing: 'content-box',
@@ -28,14 +28,14 @@ class Panel extends Component {
         <div className="panel-body">
           <label htmlFor="panel-search" className="sr-only">Search</label>
           <input
-            onKeyUp={this.handleKeyUp.bind(this)}
+            onKeyUp={this._handleKeyUp.bind(this)}
             className="form-control"
             placeholder="Search…"
-            ref="search"
             id="panel-search"
-            type="search" />
+            type="search"
+            ref="search" />
         </div>
-        {empty ? emptyContent : <ListGroup {...this.props} ref="listGroup"/>}
+        {empty ? emptyContent : <ListGroup {...this.props}/>}
       </div>
     )
   }
