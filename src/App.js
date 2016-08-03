@@ -19,7 +19,7 @@ class App extends Component {
     return (
       <div>
         before text
-        <Combobox style={{width: 300}} options={options} selectedValue="4" placeholder="Select…" name="my-form"/>
+        <Combobox style={{width: 300}} options={options} selectedValue="10" placeholder="Select…" name="my-form"/>
         after text
       </div>
     );

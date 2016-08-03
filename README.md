@@ -17,7 +17,6 @@ to get started quickly.
 
 - [ ] Up/down scroll arrows when list is too long
 - [ ] Select and active callbacks
-- [ ] Jittery scroll behavior onMouseEnter
 
 #### License
 
