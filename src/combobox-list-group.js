@@ -20,6 +20,7 @@ class ListGroup extends Component {
   _listGroupItem (option) {
     let selected = this.props.selected === option;
     let active = this.props.active === option;
+    let key = option.key || option.value;
 
     return (
       <ListGroupItem
@@ -28,7 +29,7 @@ class ListGroup extends Component {
         onListGroupItemMouseEnter={this.props.onListGroupItemMouseEnter}
         onListGroupItemClick={this.props.onListGroupItemClick}
         selected={selected}
-        key={option.value}
+        key={key}
         active={active}/>
     )
   }
